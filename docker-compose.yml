@@ -1,0 +1,71 @@
+version: '2'
+services:
+    db:
+        image: mysql
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: symfony
+            MYSQL_USER: symfony
+            MYSQL_PASSWORD: symfony
+        networks:
+         - chubbnet
+
+    php:
+        build: ./docker/php-fpm
+        ports:
+            - "9000:9000"
+        volumes:
+            - ./symfony:/var/www/symfony:cached
+            - ./logs/symfony:/var/www/symfony/var/logs:cached
+        links:
+            - db
+        networks:
+            - chubbnet
+        working_dir: /var/www/symfony
+    nginx:
+        build: ./docker/nginx
+        ports:
+            - "80:80"
+        links:
+            - php
+        volumes_from:
+            - php
+        volumes:
+            - ./logs/nginx/:/var/log/nginx:cached
+        environment:
+              - TARGET=localhost
+        networks:
+         - chubbnet
+    elk:
+        image: willdurand/elk
+        ports:
+            - "81:80"
+        volumes:
+            - ./docker/elk/logstash:/etc/logstash:cached
+            - ./docker/elk/logstash/patterns:/opt/logstash/patterns:cached
+        volumes_from:
+            - php
+            - nginx
+        networks:
+         - chubbnet
+
+    node:
+        build: ./docker/node
+        ports:
+            - "8080:8080"
+        volumes:
+            - ./crux-frontend:/var/www/crux
+#            - ./logs/angular/:/var/log/nginx:cached
+#        volumes_from:
+#            - nginx
+        networks:
+            - chubbnet
+
+networks:
+  chubbnet:
+    driver: "bridge"
+
+#volumes:
+#  - ./crux-frontend:/var/www/crux

@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+export APP_PORT=${APP_PORT:-80}
+export MYSQL_PORT=${DB_PORT}
+export MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+export MYSQL_DATABASE=${DB_DATABASE}
+export MYSQL_USER=${DB_USERNAME}
+export MYSQL_PASSWORD=${DB_PASSWORD}
+
+COMPOSE="docker-compose"
+PSRESULT=$(docker-compose ps -q)
+
+if [ ! -z "$PSRESULT" ]; then
+    EXEC="yes"
+else
+    EXEC="no"
+fi
+
+if [ $# -gt 0 ]; then
+
+    if [ -f .env ]; then
+        source .env
+    fi
+
+    if [ "$1" == "start" ]; then
+        $COMPOSE up -d
+    elif [ "$1" == "stop" ]; then
+        $COMPOSE down
+
+    elif [ "$1" == "sf" ]; then
+        shift 1
+        $COMPOSE run --rm \
+            -w /var/www/symfony \
+            php \
+            php bin/console "$@"
+
+    elif [ "$1" == "composer" ]; then
+        shift 1
+        if [ "$EXEC" == "yes" ]; then
+            $COMPOSE exec \
+                php \
+                composer "$@"
+        else
+            $COMPOSE run --rm \
+                -w /var/www/symfony \
+                symfony \
+                composer "$@"
+        fi
+
+    elif [ "$1" == "test" ]; then
+        shift 1
+        $COMPOSE run --rm \
+            -w /var/www/html \
+            symfony \
+            ./vendor/bin/phpunit "$@"
+
+    elif [ "$1" == "npm" ]; then
+        shift 1
+        $COMPOSE run --rm \
+            -w /var/www/crux \
+            node \
+            npm "$@"
+
+    elif [ "$1" == "ng" ]; then
+        shift 1
+        $COMPOSE run --rm \
+            -w /var/www/crux \
+            node \
+            ./node_modules/.bin/ng "$@"
+
+    elif [ "$1" == "yarn" ]; then
+        shift 1
+        $COMPOSE run --rm \
+            -w /var/www/html \
+            node \
+            yarn "$@"
+
+    else
+        $COMPOSE "$@"
+    fi
+else
+    $COMPOSE ps
+fi
