@@ -1,5 +1,6 @@
 version: '2'
 services:
+    
     db:
         image: mysql
         ports:
@@ -24,6 +25,7 @@ services:
         networks:
             - chubbnet
         working_dir: /var/www/symfony
+        
     nginx:
         build: ./docker/nginx
         ports:
@@ -38,6 +40,7 @@ services:
               - TARGET=localhost
         networks:
          - chubbnet
+
     elk:
         image: willdurand/elk
         ports:
@@ -55,11 +58,8 @@ services:
         build: ./docker/node
         ports:
             - "8080:8080"
-        volumes:
-            - ./crux-frontend:/var/www/crux
-#            - ./logs/angular/:/var/log/nginx:cached
-#        volumes_from:
-#            - nginx
+        volumes_from:
+           - nginx
         networks:
             - chubbnet
 
@@ -67,5 +67,3 @@ networks:
   chubbnet:
     driver: "bridge"
 
-#volumes:
-#  - ./crux-frontend:/var/www/crux

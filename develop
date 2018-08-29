@@ -57,14 +57,14 @@ if [ $# -gt 0 ]; then
     elif [ "$1" == "npm" ]; then
         shift 1
         $COMPOSE run --rm \
-            -w /var/www/crux \
+            -w /var/www/symfony \
             node \
             npm "$@"
 
     elif [ "$1" == "ng" ]; then
         shift 1
         $COMPOSE run --rm \
-            -w /var/www/crux \
+            -w /var/www/symfony \
             node \
             ./node_modules/.bin/ng "$@"
 
