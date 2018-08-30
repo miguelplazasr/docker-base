@@ -13,6 +13,9 @@ This container is for a PHP projects, if you see some files or directories named
 
 Some features like logs is focus in Symfony but it does not matter, the images work very well!
 
+## Requirements
+
+Obviosly you need [Docker](https://www.docker.com/products/docker-desktop)
 
 ## How to build the image?
 
