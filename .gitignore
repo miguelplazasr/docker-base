@@ -4,4 +4,4 @@
 /vendor/
 /logs/**/*
 
-/symfony/
+/backend/

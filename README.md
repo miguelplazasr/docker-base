@@ -1,5 +1,5 @@
 # docker-base
-Base NGINX, PHP, Symfony and Friends
+Base NGINX, PHP, Panera and Friends
 
 This image contains
 
@@ -9,9 +9,8 @@ This image contains
 + NodeJs 10.9
 + ELK (Elasticsearch, Logstash and Kibana)
 
-This container is for a PHP projects, if you see some files or directories named `symfony` don't worry, is only for deploy image.
+This container is for a PHP projects..
 
-Some features like logs is focus in Symfony but it does not matter, the images work very well!
 
 ## Requirements
 
