@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 
 LABEL maintainer="MiguelPlazasR <miguelplazasr@gmail.com>"
 
@@ -21,6 +21,7 @@ RUN apk add --update \
     php7-pdo_mysql \
     php7-mysqli \
     php7-xml \
+    php7-xmlwriter \
     php7-zlib \
     php7-phar \
     php7-tokenizer \

@@ -27,6 +27,13 @@ if [ $# -gt 0 ]; then
     elif [ "$1" == "stop" ]; then
         $COMPOSE down
 
+    elif [ "$1" == "art" ]; then
+        shift 1
+        $COMPOSE run --rm \
+            -w /var/www/symfony \
+            php \
+            php artisan "$@"
+
     elif [ "$1" == "sf" ]; then
         shift 1
         $COMPOSE run --rm \
