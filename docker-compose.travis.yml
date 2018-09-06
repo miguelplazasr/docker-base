@@ -4,20 +4,20 @@ services:
         image: mysql
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: symfony
-            MYSQL_USER: symfony
-            MYSQL_PASSWORD: symfony
+            MYSQL_DATABASE: backend
+            MYSQL_USER: backend
+            MYSQL_PASSWORD: backend
     php:
-        build: ../liverpool/LiverpoolLanding/docker/php-fpm
+        build: ./docker/php-fpm
         expose:
             - "9000"
         volumes:
-            - ./symfony:/var/www/symfony
-            - ./logs/symfony:/var/www/symfony/var/logs
+            - ./backend:/var/www/backend
+            - ./logs/backend:/var/www/backend/var/logs
         links:
             - db
     nginx:
-        build: ../liverpool/LiverpoolLanding/docker/nginx
+        build: ./docker/nginx
         ports:
             - "80:80"
         links:

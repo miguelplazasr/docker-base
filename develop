@@ -27,10 +27,17 @@ if [ $# -gt 0 ]; then
     elif [ "$1" == "stop" ]; then
         $COMPOSE down
 
+    elif [ "$1" == "art" ]; then
+        shift 1
+        $COMPOSE run --rm \
+            -w /var/www/backend \
+            php \
+            php artisan "$@"
+
     elif [ "$1" == "sf" ]; then
         shift 1
         $COMPOSE run --rm \
-            -w /var/www/symfony \
+            -w /var/www/backend \
             php \
             php bin/console "$@"
 
@@ -42,8 +49,8 @@ if [ $# -gt 0 ]; then
                 composer "$@"
         else
             $COMPOSE run --rm \
-                -w /var/www/symfony \
-                symfony \
+                -w /var/www/backend \
+                backend \
                 composer "$@"
         fi
 
@@ -51,20 +58,20 @@ if [ $# -gt 0 ]; then
         shift 1
         $COMPOSE run --rm \
             -w /var/www/html \
-            symfony \
+            backend \
             ./vendor/bin/phpunit "$@"
 
     elif [ "$1" == "npm" ]; then
         shift 1
         $COMPOSE run --rm \
-            -w /var/www/symfony \
+            -w /var/www/backend \
             node \
             npm "$@"
 
     elif [ "$1" == "ng" ]; then
         shift 1
         $COMPOSE run --rm \
-            -w /var/www/symfony \
+            -w /var/www/backend \
             node \
             ./node_modules/.bin/ng "$@"
 

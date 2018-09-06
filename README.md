@@ -1,5 +1,5 @@
 # docker-base
-Base NGINX, PHP, Symfony and Friends
+Base NGINX, PHP, Panera and Friends
 
 This image contains
 
@@ -9,13 +9,19 @@ This image contains
 + NodeJs 10.9
 + ELK (Elasticsearch, Logstash and Kibana)
 
-This container is for a PHP projects, if you see some files or directories named `symfony` don't worry, is only for deploy image.
+This container is for a PHP projects.
 
-Some features like logs is focus in Symfony but it does not matter, the images work very well!
 
 ## Requirements
 
-Obviosly you need [Docker](https://www.docker.com/products/docker-desktop)
++ Obviosly you need [Docker](https://www.docker.com/products/docker-desktop)
+
++ In your 'hosts' file you need add :
+
+    `127.0.0.1   panera.localhost`
+
+    In MacOs the _hosts_ file folder is `/etc/hosts`
+    In Windows `c:\Windows\System32\Drivers\etc\hosts`
 
 ## How to build the image?
 
@@ -38,6 +44,12 @@ And, how stop the image?
 
 + phpunit
     ```$ ./develop test ```
+
++ laravel
+    ```$ ./develop art [command] ```
+
++ symfony
+    ```$ ./develop sf [command] ```
 
 + npm
     ```$ ./develop npm [command] ```

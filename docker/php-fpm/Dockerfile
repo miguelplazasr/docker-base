@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 
 LABEL maintainer="MiguelPlazasR <miguelplazasr@gmail.com>"
 
@@ -21,6 +21,7 @@ RUN apk add --update \
     php7-pdo_mysql \
     php7-mysqli \
     php7-xml \
+    php7-xmlwriter \
     php7-zlib \
     php7-phar \
     php7-tokenizer \
@@ -39,14 +40,12 @@ RUN composer config --global repo.packagist composer https://packagist.org
 
 RUN composer self-update
 
-ADD symfony.ini /etc/php7/php-fpm.d/
-ADD symfony.ini /etc/php7/cli/conf.d/
+ADD backend.ini /etc/php7/php-fpm.d/
+ADD backend.ini /etc/php7/cli/conf.d/
 
-ADD symfony.pool.conf /etc/php7/php-fpm.d/
+ADD backend.pool.conf /etc/php7/php-fpm.d/
 
 CMD ["php-fpm7", "-F"]
 
-WORKDIR /var/www/symfony
+WORKDIR /var/www/backend
 EXPOSE 9000
-
-RUN ls -la
